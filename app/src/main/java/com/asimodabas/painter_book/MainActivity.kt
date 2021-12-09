@@ -1,7 +1,10 @@
 package com.asimodabas.painter_book
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import com.asimodabas.painter_book.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -16,12 +19,31 @@ class MainActivity : AppCompatActivity() {
         setContentView(view)
     }
 
-    fun saveButtonClicked(){
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+
+        val menuInflater = menuInflater
+        menuInflater.inflate(R.menu.paint_menu, menu)
+
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+
+        if (item.itemId == R.id.add_paint_item) {
+            val intent = Intent(this@MainActivity, DetailsActivity::class.java)
+            startActivity(intent)
+        }
+
+        return super.onOptionsItemSelected(item)
+    }
+
+
+    fun saveButtonClicked() {
 
 
     }
 
-    fun selectImage(){
+    fun selectImage() {
 
 
     }
