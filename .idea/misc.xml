@@ -3,8 +3,9 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Users/WindoWss/AndroidStudioProjects/PainterBook/app/src/main/res/layout/activity_details.xml" value="0.20416666666666666" />
-        <entry key="..\:/Users/WindoWss/AndroidStudioProjects/PainterBook/app/src/main/res/layout/activity_main.xml" value="0.25" />
+        <entry key="..\:/Users/WindoWss/AndroidStudioProjects/PainterBook/app/src/main/res/layout/activity_details.xml" value="0.33" />
+        <entry key="..\:/Users/WindoWss/AndroidStudioProjects/PainterBook/app/src/main/res/layout/activity_main.xml" value="0.5" />
+        <entry key="..\:/Users/WindoWss/AndroidStudioProjects/PainterBook/app/src/main/res/layout/recycler_row.xml" value="0.36666666666666664" />
       </map>
     </option>
   </component>
