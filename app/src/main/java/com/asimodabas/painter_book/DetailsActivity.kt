@@ -28,8 +28,8 @@ class DetailsActivity : AppCompatActivity() {
             saveButtonClicked()
         }
 
-        binding.imageView.setOnClickListener {
-            selectImage()
+        binding.imageView.setOnClickListener { 
+            selectImage(it)
         }
 
 
@@ -40,13 +40,15 @@ class DetailsActivity : AppCompatActivity() {
 
     }
 
-    fun selectImage() {
+    fun selectImage(view: View) {
         if(ContextCompat.checkSelfPermission(this,
                 Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
 
             if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_EXTERNAL_STORAGE)){
 
-                Snackbar.make(binding.imageView,"Permission needed for gallery",Snackbar.LENGTH_INDEFINITE).setAction("Give Permission",View.OnClickListener {
+                //Snackbar
+
+                Snackbar.make(view,"Permission needed for gallery",Snackbar.LENGTH_INDEFINITE).setAction("Give Permission",View.OnClickListener {
 
                 //request permission
 
