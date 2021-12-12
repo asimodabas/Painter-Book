@@ -37,7 +37,7 @@ class DetailsActivity : AppCompatActivity() {
         registerLauncher()
 
         binding.button.setOnClickListener {
-            saveButtonClicked()
+            saveButtonClicked(it)
         }
 
         binding.imageView.setOnClickListener {
@@ -47,9 +47,43 @@ class DetailsActivity : AppCompatActivity() {
 
     }
 
-    fun saveButtonClicked() {
+    fun saveButtonClicked(view: View) {
+
+        val artName = binding.artNameText.text.toString()
+        val artistName = binding.artistNameText2.text.toString()
+        val year = binding.yearText.text.toString()
+
+        if (selectedBitmap != null){
+            val smallBitmap = makeSmallerBitmap(selectedBitmap!!,310)
+
+        }
+
+    }
+
+    private fun makeSmallerBitmap(image: Bitmap, maximumSize: Int): Bitmap {
+
+        var width = image.width
+        var height = image.height
+
+        val bitmapRatio: Double = width.toDouble() / height.toDouble()
+        if (bitmapRatio > 1) {
+
+            //landScape Image
+            width = maximumSize
+            val scaledHeight = width / bitmapRatio
+            height = scaledHeight.toInt()
 
 
+        } else {
+
+            //portraid Image
+            height = maximumSize
+            val scaleWidth = height * bitmapRatio
+            width = scaleWidth.toInt()
+
+        }
+
+        return Bitmap.createScaledBitmap(image, width, height, true)
     }
 
     fun selectImage(view: View) {
@@ -69,8 +103,8 @@ class DetailsActivity : AppCompatActivity() {
                 Snackbar.make(view, "Permission needed for gallery", Snackbar.LENGTH_INDEFINITE)
                     .setAction("Give Permission", View.OnClickListener {
 
-                    //request permission
-                    permissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
+                        //request permission
+                        permissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
 
                     }).show()
 
