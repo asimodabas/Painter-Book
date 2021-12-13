@@ -17,6 +17,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.asimodabas.painter_book.databinding.ActivityDetailsBinding
 import com.google.android.material.snackbar.Snackbar
+import java.io.ByteArrayOutputStream
 import java.lang.Exception
 
 
@@ -53,8 +54,32 @@ class DetailsActivity : AppCompatActivity() {
         val artistName = binding.artistNameText2.text.toString()
         val year = binding.yearText.text.toString()
 
-        if (selectedBitmap != null){
-            val smallBitmap = makeSmallerBitmap(selectedBitmap!!,310)
+        if (selectedBitmap != null) {
+            val smallBitmap = makeSmallerBitmap(selectedBitmap!!, 310)
+
+            val outPutStream = ByteArrayOutputStream()
+            smallBitmap.compress(Bitmap.CompressFormat.PNG, 50, outPutStream)
+            val byteArray = outPutStream.toByteArray()
+
+            try {
+                val database = this.openOrCreateDatabase("Arts", MODE_PRIVATE, null)
+                database.execSQL("CREATE TABLE IF NOT EXISTS arts(id INTEGER PRIMARY KEY,artname VARCHAR,artistname VARCHAR,year VARCHAR,image BLOB)")
+
+                val sqlString = "INSERT INTO arts(artname, artistname, year, image) VALUES (?, ?, ?, ?)"
+                val statement = database.compileStatement(sqlString)
+                statement.bindString(1,artName)
+                statement.bindString(2,artistName)
+                statement.bindString(3,year)
+                statement.bindBlob(4,byteArray)
+                statement.execute()
+
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+
+            val intent = Intent(this@DetailsActivity,MainActivity::class.java)
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+            startActivity(intent)
 
         }
 
@@ -70,6 +95,7 @@ class DetailsActivity : AppCompatActivity() {
 
             //landScape Image
             width = maximumSize
+
             val scaledHeight = width / bitmapRatio
             height = scaledHeight.toInt()
 
@@ -78,6 +104,7 @@ class DetailsActivity : AppCompatActivity() {
 
             //portraid Image
             height = maximumSize
+
             val scaleWidth = height * bitmapRatio
             width = scaleWidth.toInt()
 
