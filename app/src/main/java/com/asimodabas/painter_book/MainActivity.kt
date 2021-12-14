@@ -8,14 +8,19 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.LinearLayout
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.asimodabas.painter_book.databinding.ActivityMainBinding
 import com.google.android.material.snackbar.Snackbar
+import java.lang.Exception
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
+    private lateinit var artList: ArrayList<Art>
+    private lateinit var artAdapter: ArtAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,6 +29,33 @@ class MainActivity : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
 
+        artList = ArrayList<Art>()
+        artAdapter = ArtAdapter(artList)
+        binding.recyclerView.layoutManager = LinearLayoutManager(this)
+        binding.recyclerView.adapter = artAdapter
+
+        try {
+
+            val database = this.openOrCreateDatabase("Arts", MODE_PRIVATE, null)
+
+            val cursor = database.rawQuery("SELECT * FROM arts", null)
+            val artNameIx = cursor.getColumnIndex("artname")
+            val idIx = cursor.getColumnIndex("id")
+
+            while (cursor.moveToNext()) {
+                val name = cursor.getString(artNameIx)
+                val id = cursor.getInt(idIx)
+                val art = Art(name, id)
+                artList.add(art)
+
+            }
+
+            artAdapter.notifyDataSetChanged()
+            cursor.close()
+
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
 
     }
 
@@ -44,8 +76,6 @@ class MainActivity : AppCompatActivity() {
 
         return super.onOptionsItemSelected(item)
     }
-
-
 
 
 }
