@@ -24,6 +24,8 @@ class ArtAdapter(val artListe: ArrayList<Art>) : RecyclerView.Adapter<ArtAdapter
         holder.binding.recyclerViewText.text = artListe.get(position).name
         holder.itemView.setOnClickListener {
             val intent = Intent(holder.itemView.context, DetailsActivity::class.java)
+            intent.putExtra("info","old")
+            intent.putExtra("id",artListe.get(position).id)
             holder.itemView.context.startActivity(intent)
 
         }
