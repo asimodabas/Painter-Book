@@ -8,20 +8,18 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.ImageDecoder
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
 import android.view.View
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.asimodabas.painter_book.databinding.ActivityDetailsBinding
 import com.google.android.material.snackbar.Snackbar
 import java.io.ByteArrayOutputStream
-import java.lang.Exception
-
 
 class DetailsActivity : AppCompatActivity() {
 
@@ -80,11 +78,9 @@ class DetailsActivity : AppCompatActivity() {
             }
             cursor.close()
         }
-
     }
 
     fun saveButtonClicked(view: View) {
-
         val artName = binding.artNameText.text.toString()
         val artistName = binding.artistNameText2.text.toString()
         val year = binding.yearText.text.toString()
@@ -112,17 +108,13 @@ class DetailsActivity : AppCompatActivity() {
             } catch (e: Exception) {
                 e.printStackTrace()
             }
-
             val intent = Intent(this@DetailsActivity, MainActivity::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
             startActivity(intent)
-
         }
-
     }
 
     private fun makeSmallerBitmap(image: Bitmap, maximumSize: Int): Bitmap {
-
         var width = image.width
         var height = image.height
 
@@ -135,17 +127,13 @@ class DetailsActivity : AppCompatActivity() {
             val scaledHeight = width / bitmapRatio
             height = scaledHeight.toInt()
 
-
         } else {
-
             //portraid Image
             height = maximumSize
 
             val scaleWidth = height * bitmapRatio
             width = scaleWidth.toInt()
-
         }
-
         return Bitmap.createScaledBitmap(image, width, height, true)
     }
 
@@ -155,13 +143,11 @@ class DetailsActivity : AppCompatActivity() {
                 Manifest.permission.READ_EXTERNAL_STORAGE
             ) != PackageManager.PERMISSION_GRANTED
         ) {
-
             if (ActivityCompat.shouldShowRequestPermissionRationale(
                     this,
                     Manifest.permission.READ_EXTERNAL_STORAGE
                 )
             ) {
-
                 //Snackbar
                 Snackbar.make(view, "Permission needed for gallery", Snackbar.LENGTH_INDEFINITE)
                     .setAction("Give Permission", View.OnClickListener {
@@ -170,27 +156,21 @@ class DetailsActivity : AppCompatActivity() {
                         permissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
 
                     }).show()
-
             } else {
-
                 //request permission
                 permissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
             }
 
         } else {
-
             val intentToGallery =
                 Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
             activityResultLauncher.launch(intentToGallery)
         }
-
     }
 
     private fun registerLauncher() {
-
         activityResultLauncher =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-
                 if (result.resultCode == RESULT_OK) {
                     val intentFromResult = result.data
                     if (intentFromResult != null) {
@@ -231,7 +211,5 @@ class DetailsActivity : AppCompatActivity() {
                         .show()
                 }
             }
-
     }
-
 }

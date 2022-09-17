@@ -16,7 +16,6 @@ class ArtAdapter(val artListe: ArrayList<Art>) : RecyclerView.Adapter<ArtAdapter
 
         val binding = RecyclerRowBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ArtHolder(binding)
-
     }
 
     override fun onBindViewHolder(holder: ArtHolder, position: Int) {
@@ -24,16 +23,14 @@ class ArtAdapter(val artListe: ArrayList<Art>) : RecyclerView.Adapter<ArtAdapter
         holder.binding.recyclerViewText.text = artListe.get(position).name
         holder.itemView.setOnClickListener {
             val intent = Intent(holder.itemView.context, DetailsActivity::class.java)
-            intent.putExtra("info","old")
-            intent.putExtra("id",artListe.get(position).id)
+            intent.putExtra("info", "old")
+            intent.putExtra("id", artListe.get(position).id)
             holder.itemView.context.startActivity(intent)
-
         }
     }
 
     override fun getItemCount(): Int {
 
         return artListe.size
-
     }
 }

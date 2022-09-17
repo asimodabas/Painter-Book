@@ -1,20 +1,12 @@
 package com.asimodabas.painter_book
 
-import android.Manifest
 import android.content.Intent
-import android.content.pm.PackageManager
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.provider.MediaStore
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.LinearLayout
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.asimodabas.painter_book.databinding.ActivityMainBinding
-import com.google.android.material.snackbar.Snackbar
-import java.lang.Exception
 
 class MainActivity : AppCompatActivity() {
 
@@ -35,7 +27,6 @@ class MainActivity : AppCompatActivity() {
         binding.recyclerView.adapter = artAdapter
 
         try {
-
             val database = this.openOrCreateDatabase("Arts", MODE_PRIVATE, null)
 
             val cursor = database.rawQuery("SELECT * FROM arts", null)
@@ -47,7 +38,6 @@ class MainActivity : AppCompatActivity() {
                 val id = cursor.getInt(idIx)
                 val art = Art(name, id)
                 artList.add(art)
-
             }
 
             artAdapter.notifyDataSetChanged()
@@ -56,7 +46,6 @@ class MainActivity : AppCompatActivity() {
         } catch (e: Exception) {
             e.printStackTrace()
         }
-
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -71,12 +60,10 @@ class MainActivity : AppCompatActivity() {
 
         if (item.itemId == R.id.add_paint_item) {
             val intent = Intent(this@MainActivity, DetailsActivity::class.java)
-            intent.putExtra("info","new")
+            intent.putExtra("info", "new")
             startActivity(intent)
         }
 
         return super.onOptionsItemSelected(item)
     }
-
-
 }
